@@ -1,0 +1,36 @@
+body {
+    background-color: cadetblue;
+}
+#form {
+    background-color: white;
+    width: 25%;
+    margin: 120px auto;
+    padding: 50px;
+    box-sizing: 50px;
+    box-shadow: 10px 10px 5px darkcyan;
+    border-radius: 6px;
+}
+
+#btn {
+    color: white;
+    background-color: cadetblue;
+    padding: 10px;
+    font-size: large;
+    border-radius: 10px;
+    margin-right: 100px;
+}
+#btn2 {
+    color: white;
+    background-color: cadetblue;
+    padding: 10px;
+    font-size: large;
+    border-radius: 10px;
+    text-align: right;
+}
+
+@media screen and (max-width:700px) {
+    #form{
+        width: 65%;
+        padding: 40px;
+    }
+}
