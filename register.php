@@ -30,15 +30,14 @@
         if (isset($_POST['register'])) {
             $user = $_POST['user'];
             $pass = $_POST['pass'];
-            if (!empty($_POST['user']) OR empty($_POST['pass'])) {
-                echo"Não deu";
-                die();
-            }
-            
             $email = $_POST['email'];
             $sql = "INSERT INTO user (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
+            if (empty($_POST['user']) OR empty($_POST['pass'])) {
+                echo"Não deu";
+                die();
+            } 
         }
-
+            
         if ($conexao->query($sql) === TRUE ) {
             echo 'Cadastro inserido com sucesso! ';
         } else {
