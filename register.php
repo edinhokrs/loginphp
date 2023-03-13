@@ -1,8 +1,3 @@
-<?php
-
-include_once'./funcoes.php';
-
-?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,21 +12,38 @@ include_once'./funcoes.php';
     <div id="form2">
         <h1>Register</h1>
         <br>
-        <form name="form2" method="POST">
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
             <label>Username: </label>
             <input type="text" id="user" name="user"></br></br>
             <label>Password:</label> 
-            <input type="text" id="pass" name="pass"></br></br>
+            <input type="password" id="pass" name="pass"></br></br>
             <label> E-mail:</label>
-            <input type="text" id="email" name="email"></br></br>
+            <input type="email" id="email" name="email"></br></br>
             <br><br>
             <input type="submit" id="btn3" value="Register" name="register">
 
         </form>
     </div>
-    <?php 
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        var_dump($dados)
+    <?php
+        require_once'./conexao.php';
+        
+        if (isset($_POST['register'])) {
+            $user = $_POST['user'];
+            $pass = $_POST['pass'];
+            if (!empty($_POST['user']) OR empty($_POST['pass'])) {
+                echo"Não deu";
+                die();
+            }
+            
+            $email = $_POST['email'];
+            $sql = "INSERT INTO user (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
+        }
+
+        if ($conexao->query($sql) === TRUE ) {
+            echo 'Cadastro inserido com sucesso! ';
+        } else {
+            echo"Erro ao inserir" . $conexao->error;
+        }  
     ?>
 </body>
 </html>

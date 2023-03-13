@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,10 +16,12 @@
             <label>Username: </label>
             <input type="text" id="user" name="user"></br></br>
             <label>Password: </label>
-            <input type="text" id="pass" name="pass"></br></br>
+            <input type="password" id="pass" name="pass"></br></br>
             <br><br>
-            </form>
+            
+                <form>
                 <input type="submit" id="btn" value="Login" name="submit">
+                </form></form>
                 <br><br>
                 <form action="register.php" method="POST">
                     <input type="submit" id="btn2" value="Sign up" name="signup">
@@ -32,7 +33,15 @@
 
     <?php
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        $user = $dados['user'];
+        $password = $dados['pass'];
+        $submit = $dados['submit'];
+        var_dump($dados);
+        print"$user $password $submit";
         //Acredito que a próxima parte seja tentar inserir os cadastros no banco de dados;
+        if ($dados['submit'] == "Login") {
+            print("Clicou no Login");
+        }
     ?>
 
 
