@@ -32,16 +32,27 @@
 
 
     <?php
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        $user = $dados['user'];
-        $password = $dados['pass'];
-        $submit = $dados['submit'];
-        var_dump($dados);
-        print"$user $password $submit";
-        //Acredito que a próxima parte seja tentar inserir os cadastros no banco de dados;
-        if ($dados['submit'] == "Login") {
-            print("Clicou no Login");
+        require_once'./conexao.php';    
+        if(isset($_POST['submit'])) {
+            $user = $_POST['user'];
+            $password = $_POST['pass'];
+
+            $sql = "select * from user where user = '$user' and password = '$password'";
+            $result = mysqli_query($conexao, $sql);
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $count = mysqli_num_rows($result);
+            if ($count==1) {
+                header("Location: ./welcome.php");
+            } else {
+                echo '<script>
+                window.location.href = "index.php"
+                alert("Login failed. Invalid username or password")
+                </script>';
+            }
         }
+
+
+
     ?>
 
 
