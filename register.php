@@ -25,23 +25,32 @@
         </form>
     </div>
     <?php
-        require_once'./conexao.php';
+        require_once'./conection.php';
         
         if (isset($_POST['register'])) {
             $user = $_POST['user'];
             $pass = $_POST['pass'];
             $email = $_POST['email'];
-            $sql = "INSERT INTO user (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
-            if (empty($_POST['user']) OR empty($_POST['pass'])) {
-                echo"Não deu";
-                die();
-            } 
-        }
             
-        if ($conexao->query($sql) === TRUE ) {
-            echo 'Cadastro inserido com sucesso! ';
-        } else {
-            echo"Erro ao inserir" . $conexao->error;
+            $check_user_query = "SELECT * FROM user WHERE user = '$user' OR email = '$email'";
+            $check_user_result = $conn->query($check_user_query);
+            if ($check_user_result->num_rows > 0) {
+                echo '<script>
+                window.location.href = "./register.php"
+                alert("Register failed. User or email already exists in database.")
+                </script>';
+            } else {
+                $insert_user_query = "INSERT INTO user (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
+                if ($conn-> query($insert_user_query) === TRUE) {
+                    echo "<script>
+                    alert('Registered!')
+                    </script> ";
+                } else {
+                    echo "<script>
+                    alert(There's something wrong)
+                    </script> " . $conn->error;
+                }
+            }
         }  
     ?>
 </body>
