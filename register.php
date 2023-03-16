@@ -16,7 +16,7 @@
             <label>Username: </label>
             <input type="text" id="user" name="user"></br></br>
             <label>Password:</label> 
-            <input type="password" id="pass" name="pass"></br></br>
+            <input type="password" id="pass" name="pass" ></br></br>
             <label> E-mail:</label>
             <input type="email" id="email" name="email"></br></br>
             <br><br>
@@ -26,13 +26,23 @@
     </div>
     <?php
         require_once'./conection.php';
+
+        $pattern = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i";
         
         if (isset($_POST['register'])) {
             $user = $_POST['user'];
             $pass = $_POST['pass'];
+            if (preg_match($pattern, $pass)) {
+                $pass = $_POST['pass'];
+            } else {
+                echo'<script>
+                alert("Invalid password! Password must have at least one character uppercase, one lower case and one special character.")
+                </script>';
+                die();
+            }
             $email = $_POST['email'];
             
-            $check_user_query = "SELECT * FROM user WHERE user = '$user' OR email = '$email'";
+            $check_user_query = "SELECT * FROM users WHERE user = '$user' OR email = '$email'";
             $check_user_result = $conn->query($check_user_query);
             if ($check_user_result->num_rows > 0) {
                 echo '<script>
@@ -40,7 +50,7 @@
                 alert("Register failed. User or email already exists in database.")
                 </script>';
             } else {
-                $insert_user_query = "INSERT INTO user (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
+                $insert_user_query = "INSERT INTO users (id, user, password, email) VALUES (null, '$user', '$pass', '$email')";
                 if ($conn-> query($insert_user_query) === TRUE) {
                     echo "<script>
                     alert('Registered!')
