@@ -32,16 +32,21 @@
 
 
     <?php
+
+    
         require_once'./conection.php';    
         if(isset($_POST['submit'])) {
             $user = $_POST['user'];
             $password = $_POST['pass'];
-
-            $sql = "select * from users where user = '$user' and password = '$password'";
-            $result = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $count = mysqli_num_rows($result);
-            if ($count==1) {
+            $stmt = $pdo->prepare("select * from users where user = :user and password = :password");
+            $stmt->bindParam(':user', $user);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
+            $row = $stmt->rowCount();
+               
+            
+            if ($row > 0) {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 header("Location: ./welcome.php");
             } else {
                 echo '<script>
@@ -50,7 +55,6 @@
                 </script>';
             }
         }
-
 
 
     ?>
